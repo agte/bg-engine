@@ -17,7 +17,7 @@ test('constructor: with data', (t) => {
   t.throws(() => new StringSet(null));
   t.throws(() => new StringSet({ 0: 'abc', 1: 'def' }));
   let set;
-  t.notThrows(() => { set = new StringSet([ 'abc', 'def' ]) });
+  t.notThrows(() => { set = new StringSet(['abc', 'def']); });
   t.is(set.size, 2);
   t.true(set.has('abc'));
   t.deepEqual(Array.from(set), ['abc', 'def']);

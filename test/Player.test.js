@@ -11,7 +11,7 @@ test('property "id": constructor', (t) => {
   t.throws(() => new Player({ id: 5 }));
   t.throws(() => new Player({ id: '' }));
   let player;
-  t.notThrows(() => { player = new Player({ id: 'abc' }) });
+  t.notThrows(() => { player = new Player({ id: 'abc' }); });
   t.is(player.id, 'abc');
 });
 
@@ -30,7 +30,7 @@ test('property "actions": default value', (t) => {
 
 test('property "actions": initial value', (t) => {
   let player;
-  t.notThrows(() => player = new Player({ id: 'abc', actions: ['go', 'stay'] }));
+  t.notThrows(() => { player = new Player({ id: 'abc', actions: ['go', 'stay'] }); });
   t.is(typeof player.actions, 'object');
   t.true(player.actions instanceof StringSet);
   t.deepEqual(Array.from(player.actions), ['go', 'stay']);
