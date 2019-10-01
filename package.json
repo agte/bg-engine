@@ -2,7 +2,11 @@
   "name": "@agte/bg-engine",
   "version": "0.0.1",
   "description": "Basic engine for boardgames",
-  "main": "index.js",
+  "type": "module",
+  "main": "./src/Game.js",
+  "exports": {
+    "./Player": "./src/Player.js"
+  },
   "directories": {
     "lib": "src",
     "test": "test"
@@ -43,7 +47,6 @@
   "engines": {
     "node": ">=12.4.0"
   },
-  "type": "module",
   "eslintConfig": {
     "env": {
       "es6": true,
