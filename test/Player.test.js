@@ -1,23 +1,57 @@
 import test from 'ava';
+import StringSet from '../src/StringSet.js';
 import Player from '../src/Player.js';
 
-test('create new', (t) => {
-  const player = new Player({ id: 'abc' });
-  t.is(player.id, 'abc');
-  t.is(typeof player.actions, 'object');
-  t.truthy(player.actions instanceof Set);
-  t.is(player.actions.size, 0);
-  t.is(player.score, 0);
-  t.throws(() => new Player());
+test('class', (t) => {
+  t.is(typeof Player, 'function');
 });
 
-test('change', (t) => {
+test('property "id": constructor', (t) => {
+  t.throws(() => new Player());
+  t.throws(() => new Player({ id: 5 }));
+  t.throws(() => new Player({ id: '' }));
+  let player;
+  t.notThrows(() => { player = new Player({ id: 'abc' }) });
+  t.is(player.id, 'abc');
+});
+
+test('property "id": readonly', (t) => {
+  const player = new Player({ id: 'def' });
+  t.throws(() => { player.id = 'xyz'; });
+  t.is(player.id, 'def');
+});
+
+test('property "actions": default value', (t) => {
   const player = new Player({ id: 'abc' });
-  t.throws(() => { player.id = 5; });
-  t.throws(() => { player.actions = []; });
-  t.throws(() => { player.score = false; });
-  t.notThrows(() => { player.score = 5; });
-  t.is(player.score, 5);
+  t.is(typeof player.actions, 'object');
+  t.true(player.actions instanceof StringSet);
+  t.is(player.actions.size, 0);
+});
+
+test('property "actions": initial value', (t) => {
+  let player;
+  t.notThrows(() => player = new Player({ id: 'abc', actions: ['go', 'stay'] }));
+  t.is(typeof player.actions, 'object');
+  t.true(player.actions instanceof StringSet);
+  t.deepEqual(Array.from(player.actions), ['go', 'stay']);
+});
+
+test('property "actions": readonly', (t) => {
+  const player = new Player({ id: 'abc', actions: ['go', 'stay'] });
+  t.throws(() => { player.actions = null; });
+});
+
+test('property "score": default value', (t) => {
+  const player = new Player({ id: 'abc' });
+  t.is(player.score, 0);
+});
+
+test('property "score": initial value', (t) => {
+  t.throws(() => new Player({ id: 'abc', score: '5' }));
+  t.throws(() => new Player({ id: 'abc', score: NaN }));
+  let player;
+  t.notThrows(() => { player = new Player({ id: 'abc', score: 0.5 }); });
+  t.is(player.score, 0.5);
 });
 
 test('serialize', (t) => {
@@ -37,9 +71,8 @@ test('restore', (t) => {
   player.actions.add('go');
   player.score = 5;
   const json = player.toJSON();
-
   const restoredPlayer = new Player(json);
   t.is(restoredPlayer.id, 'abc');
-  t.truthy(restoredPlayer.actions.has('go'));
+  t.true(restoredPlayer.actions.has('go'));
   t.is(restoredPlayer.score, 5);
 });

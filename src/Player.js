@@ -1,4 +1,5 @@
 import type from '@agte/type';
+import StringSet from './StringSet.js';
 
 export default class Player {
   #score;
@@ -13,11 +14,11 @@ export default class Player {
   }
 
   constructor({ id, actions = [], score = 0 }) {
-    type.string(id);
-    type.strings(actions);
-
+    type.nonEmptyString(id);
     Object.defineProperty(this, 'id', { value: String(id) });
-    Object.defineProperty(this, 'actions', { value: new Set(actions) });
+
+    Object.defineProperty(this, 'actions', { value: new StringSet(actions) });
+
     this.score = score;
   }
 
