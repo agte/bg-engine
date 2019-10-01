@@ -5,7 +5,8 @@
   "type": "module",
   "main": "./src/Game.js",
   "exports": {
-    "./Player": "./src/Player.js"
+    "./Player": "./src/Player.js",
+    "./Players": "./src/Players.js"
   },
   "directories": {
     "lib": "src",
