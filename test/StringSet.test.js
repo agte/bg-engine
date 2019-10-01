@@ -1,4 +1,4 @@
-import test from 'ava';
+import { serial as test } from 'ava';
 import StringSet from '../src/StringSet.js';
 
 test('class', (t) => {
