@@ -6,8 +6,11 @@ test('class', (t) => {
   t.is(typeof Player, 'function');
 });
 
-test('property "id": constructor', (t) => {
+test('constructor: without data', (t) => {
   t.throws(() => new Player());
+});
+
+test('property "id": constructor', (t) => {
   t.throws(() => new Player({ id: 5 }));
   t.throws(() => new Player({ id: '' }));
   let player;
@@ -54,7 +57,11 @@ test('property "score": initial value', (t) => {
   t.is(player.score, 0.5);
 });
 
-test('serialize', (t) => {
+test('constructor: with all data', (t) => {
+  t.notThrows(() => new Player({ id: 'abc', actions: ['go'], score: 0.5 }));
+});
+
+test('method "toJSON"', (t) => {
   const player = new Player({ id: 'abc' });
   player.actions.add('go');
   player.score = 5;
@@ -66,7 +73,7 @@ test('serialize', (t) => {
   });
 });
 
-test('restore', (t) => {
+test('constructor: from json', (t) => {
   const player = new Player({ id: 'abc' });
   player.actions.add('go');
   player.score = 5;
