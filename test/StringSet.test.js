@@ -23,7 +23,7 @@ test('constructor: with data', (t) => {
   t.deepEqual(Array.from(set), ['abc', 'def']);
 });
 
-test('has', (t) => {
+test('method "has"', (t) => {
   const set = new StringSet(['a', 'b', 'c']);
   t.throws(() => set.has(5));
   t.throws(() => set.has(''));
@@ -31,7 +31,7 @@ test('has', (t) => {
   t.true(set.has('b'));
 });
 
-test('add', (t) => {
+test('method "add"', (t) => {
   const set = new StringSet(['a', 'b', 'c']);
   t.throws(() => set.add(5));
   t.throws(() => set.add(''));
@@ -41,7 +41,7 @@ test('add', (t) => {
   t.deepEqual(Array.from(set), ['a', 'b', 'c', 'd']);
 });
 
-test('delete', (t) => {
+test('method "delete"', (t) => {
   const set = new StringSet(['a', 'b', 'c']);
   t.throws(() => set.delete(5));
   t.throws(() => set.delete(''));
