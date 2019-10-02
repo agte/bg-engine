@@ -29,22 +29,22 @@ test('constructor: duplicated data', (t) => {
   t.throws(() => new Players([{ id: 'abc' }, { id: 'def' }, { id: 'abc' }]));
 });
 
-test('set: disabled', (t) => {
+test('method "set": disabled', (t) => {
   const players = new Players([{ id: 'abc' }, { id: 'def' }]);
   t.throws(() => players.set('xyz', { id: 'xyz' }));
 });
 
-test('delete: disabled', (t) => {
+test('method "delete": disabled', (t) => {
   const players = new Players([{ id: 'abc' }, { id: 'def' }]);
   t.throws(() => players.delete('xyz'));
 });
 
-test('clear: disabled', (t) => {
+test('method "clear": disabled', (t) => {
   const players = new Players([{ id: 'abc' }, { id: 'def' }]);
   t.throws(() => players.clear());
 });
 
-test('nextAfter', (t) => {
+test('method "nextAfter"', (t) => {
   const players = new Players([{ id: 'abc' }, { id: 'def' }, { id: 'xyz' }]);
   t.throws(() => players.nextAfter(5));
   t.throws(() => players.nextAfter(null));
@@ -52,4 +52,14 @@ test('nextAfter', (t) => {
   t.falsy(players.nextAfter('lmn'));
   t.is(players.nextAfter('abc').id, 'def');
   t.is(players.nextAfter('xyz').id, 'abc');
+});
+
+test('method "toJSON"', (t) => {
+  const players = new Players([{ id: 'abc', score: 1 }, { id: 'def', actions: ['go'] }, { id: 'xyz' }]);
+  const json = players.toJSON();
+  t.deepEqual(json, [
+    { id: 'abc', actions: [], score: 1 },
+    { id: 'def', actions: ['go'], score: 0 },
+    { id: 'xyz', actions: [], score: 0 },
+  ]);
 });

@@ -35,7 +35,7 @@ export default class Players extends Map {
   /* eslint-enable class-methods-use-this */
 
   toJSON() {
-    return this.values().map((player) => player.toJSON());
+    return Array.from(this.values()).map((player) => player.toJSON());
   }
 
   nextAfter(playerId) {
