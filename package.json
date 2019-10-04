@@ -67,7 +67,8 @@
       "import/extensions": [
         "error",
         "ignorePackages"
-      ]
+      ],
+      "no-useless-rename": 0
     }
   },
   "ava": {
