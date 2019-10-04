@@ -73,3 +73,9 @@ test('method "delete": right arguments', (t) => {
   t.is(set.size, 2);
   t.deepEqual(Array.from(set), ['b', 'c']);
 });
+
+test('method "toJSON"', (t) => {
+  const set = new StringSet(['a', 'b', 'c']);
+  const json = set.toJSON();
+  t.deepEqual(json, ['a', 'b', 'c']);
+});

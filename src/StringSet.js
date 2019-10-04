@@ -21,4 +21,8 @@ export default class StringSet extends Set {
     type.nonEmptyString(item);
     return super.has(item);
   }
+
+  toJSON() {
+    return Array.from(this);
+  }
 }
