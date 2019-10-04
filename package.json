@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/agte/bg-engine#readme",
   "dependencies": {
-    "@agte/type": "git+ssh://git@github.com/agte/type.git"
+    "@agte/type": "git+ssh://git@github.com/agte/type.git#v0.0.3"
   },
   "devDependencies": {
     "ava": "^2.4.0",
