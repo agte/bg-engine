@@ -7,7 +7,7 @@ export default class Items extends Map {
     items.forEach((item) => { type.object(item); type.nonEmptyString(item.id); });
     type.class(ItemClass);
     if (ItemClass !== Item && !Object.prototype.isPrototypeOf.call(Item, ItemClass)) {
-      throw new TypeError('ItemClass must extend class "Item" or must be assigned to it');
+      throw new TypeError('Argument "ItemClass" must extend class "Item" or must be assigned to it');
     }
 
     super();

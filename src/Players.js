@@ -1,23 +1,17 @@
 import type from '@agte/type';
+import Items from './Items.js';
 import Player from './Player.js';
 
-export default class Players extends Map {
-  constructor(items = []) {
-    type.array(items);
-    if (items.length === 0) {
+export default class Players extends Items {
+  constructor(players = [], PlayerClass = Player) {
+    if (!players.length) {
       throw new Error('At least one player required');
     }
-    items.forEach((item) => type.object(item));
-    items.forEach((item) => type.nonEmptyString(item.id));
-
-    super();
-    items.forEach((item) => {
-      const { id } = item;
-      if (this.has(id)) {
-        throw new Error('Duplicated id');
-      }
-      super.set(id, new Player({ ...item, id }));
-    });
+    type.class(PlayerClass);
+    if (PlayerClass !== Player && !Object.prototype.isPrototypeOf.call(Player, PlayerClass)) {
+      throw new TypeError('Argument "PlayerClass" must extend class "Player" or must be assigned to it');
+    }
+    super(players, PlayerClass);
   }
 
   /* eslint-disable class-methods-use-this */
@@ -33,24 +27,4 @@ export default class Players extends Map {
     throw new Error('You cannot delete players');
   }
   /* eslint-enable class-methods-use-this */
-
-  toJSON() {
-    return Array.from(this.values()).map((player) => player.toJSON());
-  }
-
-  nextAfter(playerId) {
-    type.nonEmptyString(playerId);
-    if (this.size === 0) {
-      return null;
-    }
-    if (!this.has(playerId)) {
-      return null;
-    }
-
-    const keys = Array.from(this.keys());
-    const index = keys.indexOf(playerId);
-    const nextIndex = index === this.size - 1 ? 0 : index + 1;
-    const nextPlayerId = keys[nextIndex];
-    return this.get(nextPlayerId);
-  }
 }
