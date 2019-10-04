@@ -1,27 +1,14 @@
 import { serial as test } from 'ava';
-import StringSet from '../src/StringSet.js';
 import Player from '../src/Player.js';
+import Item from '../src/Item.js';
+import StringSet from '../src/StringSet.js';
 
 test('class', (t) => {
-  t.is(typeof Player, 'function');
+  t.true(Object.prototype.isPrototypeOf.call(Item, Player));
 });
 
 test('constructor: without data', (t) => {
   t.throws(() => new Player());
-});
-
-test('property "id": constructor', (t) => {
-  t.throws(() => new Player({ id: 5 }));
-  t.throws(() => new Player({ id: '' }));
-  let player;
-  t.notThrows(() => { player = new Player({ id: 'abc' }); });
-  t.is(player.id, 'abc');
-});
-
-test('property "id": readonly', (t) => {
-  const player = new Player({ id: 'def' });
-  t.throws(() => { player.id = 'xyz'; });
-  t.is(player.id, 'def');
 });
 
 test('property "actions": default value', (t) => {
@@ -57,10 +44,6 @@ test('property "score": initial value', (t) => {
   t.is(player.score, 0.5);
 });
 
-test('constructor: with all data', (t) => {
-  t.notThrows(() => new Player({ id: 'abc', actions: ['go'], score: 0.5 }));
-});
-
 test('method "toJSON"', (t) => {
   const player = new Player({ id: 'abc' });
   player.actions.add('go');
@@ -68,6 +51,7 @@ test('method "toJSON"', (t) => {
   const json = player.toJSON();
   t.deepEqual(json, {
     id: 'abc',
+    whiteList: [],
     actions: ['go'],
     score: 5,
   });

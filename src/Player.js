@@ -1,7 +1,8 @@
 import type from '@agte/type';
 import StringSet from './StringSet.js';
+import Item from './Item.js';
 
-export default class Player {
+export default class Player extends Item {
   #score;
 
   get score() {
@@ -13,20 +14,18 @@ export default class Player {
     this.#score = value;
   }
 
-  constructor({ id, actions = [], score = 0 }) {
-    type.nonEmptyString(id);
-    Object.defineProperty(this, 'id', { value: String(id) });
-
+  constructor({ actions = [], score = 0, ...other } = {}) {
+    super(other);
     Object.defineProperty(this, 'actions', { value: new StringSet(actions) });
-
     this.score = score;
   }
 
   toJSON() {
+    const json = super.toJSON();
     return {
-      id: this.id,
-      actions: Array.from(this.actions),
+      ...json,
       score: this.score,
+      actions: this.actions.toJSON(),
     };
   }
 }
