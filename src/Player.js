@@ -28,4 +28,13 @@ export default class Player extends Item {
       actions: this.actions.toJSON(),
     };
   }
+
+  getView(playerId) {
+    const view = super.getView(playerId);
+    if (view.visible) {
+      view.score = this.score;
+      view.actions = Array.from(this.actions);
+    }
+    return view;
+  }
 }

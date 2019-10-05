@@ -72,3 +72,17 @@ test('constructor: from json', (t) => {
   t.true(restoredPlayer.actions.has('go'));
   t.is(restoredPlayer.score, 5);
 });
+
+test('method "getView": visible item', (t) => {
+  const player = new Player({ id: 'abc', whiteList: ['abc'] });
+  t.deepEqual(player.getView(), {
+    id: 'abc',
+    visible: false,
+  });
+  t.deepEqual(player.getView('abc'), {
+    id: 'abc',
+    visible: true,
+    score: 0,
+    actions: [],
+  });
+});
