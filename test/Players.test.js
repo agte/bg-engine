@@ -59,8 +59,8 @@ test('method "clear": disabled', (t) => {
 test('method "toJSON"', (t) => {
   const players = new Players([
     { id: 'abc', score: 1 },
-    { id: 'def', actions: ['go'], whiteList: ['*'] },
-    { id: 'xyz' },
+    { id: 'def', actions: ['go'], whiteList: ['Player1'] },
+    { id: 'xyz', whiteList: [] },
   ]);
   const json = players.toJSON();
   t.deepEqual(json, [
@@ -68,13 +68,13 @@ test('method "toJSON"', (t) => {
       id: 'abc',
       actions: [],
       score: 1,
-      whiteList: [],
+      whiteList: ['*'],
     },
     {
       id: 'def',
       actions: ['go'],
       score: 0,
-      whiteList: ['*'],
+      whiteList: ['Player1'],
     },
     {
       id: 'xyz',

@@ -44,6 +44,11 @@ test('property "score": initial value', (t) => {
   t.is(player.score, 0.5);
 });
 
+test('property "whiteList": default value', (t) => {
+  const player = new Player({ id: 'abc' });
+  t.deepEqual(Array.from(player.whiteList), ['*']);
+});
+
 test('method "toJSON"', (t) => {
   const player = new Player({ id: 'abc' });
   player.actions.add('go');
@@ -51,7 +56,7 @@ test('method "toJSON"', (t) => {
   const json = player.toJSON();
   t.deepEqual(json, {
     id: 'abc',
-    whiteList: [],
+    whiteList: ['*'],
     actions: ['go'],
     score: 5,
   });

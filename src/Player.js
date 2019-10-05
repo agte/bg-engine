@@ -14,8 +14,8 @@ export default class Player extends Item {
     this.#score = value;
   }
 
-  constructor({ actions = [], score = 0, ...other } = {}) {
-    super(other);
+  constructor({ actions = [], score = 0, whiteList = ['*'], ...other } = {}) {
+    super({ ...other, whiteList });
     Object.defineProperty(this, 'actions', { value: new StringSet(actions) });
     this.score = score;
   }
