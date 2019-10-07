@@ -44,11 +44,6 @@ test('property "score": initial value', (t) => {
   t.is(player.score, 0.5);
 });
 
-test('property "whiteList": default value', (t) => {
-  const player = new Player({ id: 'abc' });
-  t.deepEqual(Array.from(player.whiteList), ['*']);
-});
-
 test('method "toJSON"', (t) => {
   const player = new Player({ id: 'abc' });
   player.actions.add('go');
@@ -56,7 +51,6 @@ test('method "toJSON"', (t) => {
   const json = player.toJSON();
   t.deepEqual(json, {
     id: 'abc',
-    whiteList: ['*'],
     actions: ['go'],
     score: 5,
   });
@@ -71,18 +65,4 @@ test('constructor: from json', (t) => {
   t.is(restoredPlayer.id, 'abc');
   t.true(restoredPlayer.actions.has('go'));
   t.is(restoredPlayer.score, 5);
-});
-
-test('method "getView": visible item', (t) => {
-  const player = new Player({ id: 'abc', whiteList: ['abc'] });
-  t.deepEqual(player.getView(), {
-    id: 'abc',
-    visible: false,
-  });
-  t.deepEqual(player.getView('abc'), {
-    id: 'abc',
-    visible: true,
-    score: 0,
-    actions: [],
-  });
 });

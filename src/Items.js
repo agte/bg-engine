@@ -4,7 +4,10 @@ import Item from './Item.js';
 export default class Items extends Map {
   constructor(items = [], ItemClass = Item) {
     type.array(items);
-    items.forEach((item) => { type.object(item); type.nonEmptyString(item.id); });
+    items.forEach((item) => {
+      type.object(item);
+      type.nonEmptyString(item.id);
+    });
     type.class(ItemClass);
     if (ItemClass !== Item && !Object.prototype.isPrototypeOf.call(Item, ItemClass)) {
       throw new TypeError('Argument "ItemClass" must extend class "Item" or must be assigned to it');
@@ -20,12 +23,12 @@ export default class Items extends Map {
     });
   }
 
-  toArray() {
-    return Array.from(this.values());
+  toJSON() {
+    return this.toArray().map((item) => item.toJSON());
   }
 
-  toJSON() {
-    return this.toArray().map((player) => player.toJSON());
+  toArray() {
+    return Array.from(this.values());
   }
 
   first() {
@@ -56,10 +59,5 @@ export default class Items extends Map {
     const nextIndex = index === this.size - 1 ? 0 : index + 1;
     const nextId = keys[nextIndex];
     return this.get(nextId);
-  }
-
-  getView(playerId = '') {
-    type.string(playerId);
-    return this.toArray().map((item) => item.getView(playerId));
   }
 }

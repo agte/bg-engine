@@ -67,7 +67,7 @@ test('method "toArray"', (t) => {
 test('method "toJSON"', (t) => {
   const items = new Items([{ id: 'abc' }, { id: 'cde' }], SuperItem);
   const json = items.toJSON();
-  t.deepEqual(json, [{ id: 'abc', whiteList: [] }, { id: 'cde', whiteList: [] }]);
+  t.deepEqual(json, [{ id: 'abc' }, { id: 'cde' }]);
 });
 
 test('metod "first": empty list', (t) => {
