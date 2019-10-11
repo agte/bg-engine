@@ -20,9 +20,9 @@ export default class Card extends Item {
     };
   }
 
-  view(playerId = '*') {
-    type.nonEmptyString(playerId);
-    const canViewFrontSide = this.whiteList.has('*') || (playerId !== '*' && this.whiteList.has(playerId));
+  view(playerId = '') {
+    type.string(playerId);
+    const canViewFrontSide = this.whiteList.has('*') || (playerId !== '' && this.whiteList.has(playerId));
     return canViewFrontSide
       ? {
         id: this.id,

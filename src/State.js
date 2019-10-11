@@ -1,3 +1,4 @@
+import type from '@agte/type';
 import Items from './Items.js';
 
 const getView = (value, playerId) => {
@@ -11,7 +12,7 @@ const getView = (value, playerId) => {
     if (value instanceof Items) {
       return value.toArray().map((v) => getView(v, playerId));
     }
-    if (value.toJSON && typeof toJSON === 'function') {
+    if (value.toJSON && typeof value.toJSON === 'function') {
       return value.toJSON();
     }
   }
@@ -31,7 +32,38 @@ const toJSON = (value) => {
 };
 
 export default class State extends Map {
+  constructor(...args) {
+    if (args.length > 0) {
+      throw new Error('Constructor must be called with no arguments');
+    }
+    super();
+  }
+
+  has(key) {
+    type.nonEmptyString(key);
+    return super.has(key);
+  }
+
+  get(key) {
+    type.nonEmptyString(key);
+    return super.get(key);
+  }
+
+  set(key, value) {
+    type.nonEmptyString(key);
+    return super.set(key, value);
+  }
+
+  push(key, value) {
+    type.nonEmptyString(key);
+    if (!Array.isArray(this.get(key))) {
+      this.set(key, []);
+    }
+    this.get(key).push(value);
+  }
+
   view(playerId) {
+    type.string(playerId);
     const entries = Array
       .from(this.entries())
       .map(([key, value]) => [key, getView(value, playerId)]);

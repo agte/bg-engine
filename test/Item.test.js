@@ -1,6 +1,5 @@
 import { serial as test } from 'ava';
 import Item from '../src/Item.js';
-import StringSet from '../src/StringSet.js';
 
 test('constructor: no data', (t) => {
   t.throws(() => new Item());
