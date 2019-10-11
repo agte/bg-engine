@@ -1,15 +1,9 @@
 {
   "name": "@agte/bg-engine",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Basic engine for boardgames",
   "type": "module",
-  "exports": {
-    ".": "./src/Game.js",
-    "./Item": "./src/Item.js",
-    "./Items": "./src/Items.js",
-    "./Card": "./src/Card.js",
-    "./Player": "./src/Player.js"
-  },
+  "main": "index.js",
   "directories": {
     "lib": "src",
     "test": "test"
