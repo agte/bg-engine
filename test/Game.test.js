@@ -86,3 +86,13 @@ test('method "move": called action', (t) => {
   };
   game.move('abc', 'go', { a: 5, b: 7 });
 });
+
+test('method "move": return', (t) => {
+  const game = new Game({ players: [{ id: 'abc', actions: ['go'] }] });
+  game.go = function go(player, options, diff) {
+    diff.set('cde', 5);
+  };
+  const diff = game.move('abc', 'go', { a: 5, b: 7 });
+  t.true(diff instanceof State);
+  t.deepEqual(diff.view(), { cde: 5 });
+});

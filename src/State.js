@@ -62,7 +62,7 @@ export default class State extends Map {
     this.get(key).push(value);
   }
 
-  view(playerId) {
+  view(playerId = '') {
     type.string(playerId);
     const entries = Array
       .from(this.entries())

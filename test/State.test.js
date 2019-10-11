@@ -86,7 +86,8 @@ test('method "view": no args', (t) => {
   state.set('score', 21);
   state.push('cards', 'K');
   state.push('cards', 'Q');
-  t.throws(() => state.view());
+  const view = state.view();
+  t.deepEqual(view, { score: 21, cards: ['K', 'Q'] });
 });
 
 test('method "view": wrong args', (t) => {

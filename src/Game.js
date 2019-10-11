@@ -60,5 +60,7 @@ export default class Game {
     const diff = new State(); // partial state
 
     this[action](player, options, diff);
+
+    return diff;
   }
 }
