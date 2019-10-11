@@ -45,14 +45,20 @@ export default class Game {
       throw new Error('Wrong player id');
     }
 
+    if (typeof this[action] !== 'function') {
+      throw new Error('Action not implemented');
+    }
+
     if (this.finished) {
       throw new Error('The game is finished');
     }
 
     if (!player.actions.has(action)) {
-      throw new Error('You are not allowed to perfom this action now');
+      throw new Error('Disallowed action');
     }
 
-    return new State(); // partial state
+    const diff = new State(); // partial state
+
+    this[action](player, options, diff);
   }
 }

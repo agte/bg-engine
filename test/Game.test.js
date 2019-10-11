@@ -1,6 +1,7 @@
 import { serial as test } from 'ava';
 import Game from '../src/Game.js';
 import Items from '../src/Items.js';
+import State from '../src/State.js';
 
 test('constructor: no data', (t) => {
   t.throws(() => new Game());
@@ -57,6 +58,7 @@ test('method "toJSON"', (t) => {
 
 test('method "move": wrong arguments', (t) => {
   const game = new Game({ players: [{ id: 'abc', actions: ['go'] }] });
+  game.go = function go() {};
   t.throws(() => game.move());
   t.throws(() => game.move(2));
   t.throws(() => game.move('abc'));
@@ -65,7 +67,22 @@ test('method "move": wrong arguments', (t) => {
 });
 
 test('method "move": parameter "player"', (t) => {
+  t.plan(4);
   const game = new Game({ players: [{ id: 'abc', actions: ['go'] }] });
+  game.go = function go() {
+    t.pass();
+  };
   t.notThrows(() => game.move('abc', 'go'));
   t.notThrows(() => game.move('abc', 'go', { a: 5, b: 7 }));
+});
+
+test('method "move": called action', (t) => {
+  t.plan(3);
+  const game = new Game({ players: [{ id: 'abc', actions: ['go'] }] });
+  game.go = function go(player, options, diff) {
+    t.is(player, game.players.get('abc'));
+    t.deepEqual(options, { a: 5, b: 7 });
+    t.true(diff instanceof State);
+  };
+  game.move('abc', 'go', { a: 5, b: 7 });
 });
