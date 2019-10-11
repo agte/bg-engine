@@ -3,10 +3,12 @@
   "version": "0.0.4",
   "description": "Basic engine for boardgames",
   "type": "module",
-  "main": "./src/Game.js",
   "exports": {
-    "./Player": "./src/Player.js",
-    "./Players": "./src/Players.js"
+    ".": "./src/Game.js",
+    "./Item": "./src/Item.js",
+    "./Items": "./src/Items.js",
+    "./Card": "./src/Card.js",
+    "./Player": "./src/Player.js"
   },
   "directories": {
     "lib": "src",
@@ -19,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/agte/bg-engine.git"
+    "url": "git+https://github.com/agte/bg-engine.git"
   },
   "keywords": [
     "board",
