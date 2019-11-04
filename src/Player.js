@@ -1,4 +1,4 @@
-import type from '@agte/type';
+import { assert } from '@agte/type';
 import StringSet from './StringSet.js';
 import Item from './Item.js';
 
@@ -24,7 +24,7 @@ export default class Player extends Item {
   }
 
   set score(value) {
-    type.number(value);
+    assert.number(value);
     this.#score = value;
   }
 }

@@ -1,14 +1,14 @@
-import type from '@agte/type';
+import { assert } from '@agte/type';
 import Item from './Item.js';
 
 export default class Items extends Map {
   constructor(items = [], ItemClass = Item) {
-    type.array(items);
+    assert.array(items);
     items.forEach((item) => {
-      type.object(item);
-      type.nonEmptyString(item.id);
+      assert.object(item);
+      assert.nonEmptyString(item.id);
     });
-    type.class(ItemClass);
+    assert.class(ItemClass);
     if (ItemClass !== Item && !Object.prototype.isPrototypeOf.call(Item, ItemClass)) {
       throw new TypeError('Argument "ItemClass" must extend class "Item" or must be assigned to it');
     }
@@ -46,7 +46,7 @@ export default class Items extends Map {
   }
 
   nextAfter(id) {
-    type.nonEmptyString(id);
+    assert.nonEmptyString(id);
     if (this.size === 0) {
       return null;
     }

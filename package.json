@@ -1,6 +1,6 @@
 {
   "name": "@agte/bg-engine",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Basic engine for boardgames",
   "type": "module",
   "main": "index.js",
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/agte/bg-engine#readme",
   "dependencies": {
-    "@agte/type": "git+https://github.com/agte/type.git#0.0.3"
+    "@agte/type": "git+https://github.com/agte/type.git#1.0.0"
   },
   "devDependencies": {
     "ava": "^2.4.0",

@@ -1,24 +1,24 @@
-import type from '@agte/type';
+import { assert } from '@agte/type';
 
 export default class StringSet extends Set {
   constructor(items = []) {
-    type.array(items);
-    items.forEach((item) => type.nonEmptyString(item));
+    assert.array(items);
+    items.forEach((item) => assert.nonEmptyString(item));
     super(items);
   }
 
   add(item) {
-    type.nonEmptyString(item);
+    assert.nonEmptyString(item);
     return super.add(item);
   }
 
   delete(item) {
-    type.nonEmptyString(item);
+    assert.nonEmptyString(item);
     return super.delete(item);
   }
 
   has(item) {
-    type.nonEmptyString(item);
+    assert.nonEmptyString(item);
     return super.has(item);
   }
 

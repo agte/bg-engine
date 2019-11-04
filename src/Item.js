@@ -1,8 +1,8 @@
-import type from '@agte/type';
+import { assert } from '@agte/type';
 
 export default class Item {
   constructor({ id }) {
-    type.nonEmptyString(id);
+    assert.nonEmptyString(id);
     Object.defineProperty(this, 'id', { value: id });
   }
 

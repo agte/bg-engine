@@ -1,4 +1,4 @@
-import type from '@agte/type';
+import { assert } from '@agte/type';
 import StringSet from './StringSet.js';
 import Item from './Item.js';
 
@@ -21,7 +21,7 @@ export default class Card extends Item {
   }
 
   view(playerId = '') {
-    type.string(playerId);
+    assert.string(playerId);
     const canViewFrontSide = this.whiteList.has('*') || (playerId !== '' && this.whiteList.has(playerId));
     return canViewFrontSide
       ? {

@@ -1,4 +1,4 @@
-import type from '@agte/type';
+import { assert } from '@agte/type';
 import Items from './Items.js';
 import Player from './Player.js';
 import State from './State.js';
@@ -7,7 +7,7 @@ export default class Game {
   #finished;
 
   constructor({ players = [], finished = false } = {}) {
-    type.array(players);
+    assert.array(players);
     if (players.length === 0) {
       throw new Error('At least one player required');
     }
@@ -24,7 +24,7 @@ export default class Game {
   }
 
   set finished(value) {
-    type.boolean(value);
+    assert.boolean(value);
     this.#finished = value;
   }
 
@@ -36,9 +36,9 @@ export default class Game {
   }
 
   move(playerId, action, options = {}) {
-    type.nonEmptyString(playerId);
-    type.nonEmptyString(action);
-    type.object(options);
+    assert.nonEmptyString(playerId);
+    assert.nonEmptyString(action);
+    assert.object(options);
 
     const player = this.players.get(playerId);
     if (!player) {

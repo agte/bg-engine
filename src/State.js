@@ -1,4 +1,4 @@
-import type from '@agte/type';
+import { assert } from '@agte/type';
 import Items from './Items.js';
 
 const getView = (value, playerId) => {
@@ -40,22 +40,22 @@ export default class State extends Map {
   }
 
   has(key) {
-    type.nonEmptyString(key);
+    assert.nonEmptyString(key);
     return super.has(key);
   }
 
   get(key) {
-    type.nonEmptyString(key);
+    assert.nonEmptyString(key);
     return super.get(key);
   }
 
   set(key, value) {
-    type.nonEmptyString(key);
+    assert.nonEmptyString(key);
     return super.set(key, value);
   }
 
   push(key, value) {
-    type.nonEmptyString(key);
+    assert.nonEmptyString(key);
     if (!Array.isArray(this.get(key))) {
       this.set(key, []);
     }
@@ -63,7 +63,7 @@ export default class State extends Map {
   }
 
   view(playerId = '') {
-    type.string(playerId);
+    assert.string(playerId);
     const entries = Array
       .from(this.entries())
       .map(([key, value]) => [key, getView(value, playerId)]);
