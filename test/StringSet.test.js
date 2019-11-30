@@ -1,81 +1,42 @@
-import test from 'ava';
-import StringSet from '../src/StringSet.js';
+import assert from 'assert';
+import StringSet from '../lib/StringSet.js';
 
-test('class', (t) => {
-  t.true(Object.prototype.isPrototypeOf.call(Set, StringSet));
-});
+export default Promise.resolve().then(async () => {
+  // inheritance
+  assert(Object.prototype.isPrototypeOf.call(Set, StringSet));
 
-test('constructor: no data', (t) => {
-  const set = new StringSet();
-  t.is(set.size, 0);
-});
-
-test('constructor: wrong data', (t) => {
-  t.throws(() => new StringSet(null));
-  t.throws(() => new StringSet({ 0: 'abc', 1: 'def' }));
-});
-
-test('constructor: empty data', (t) => {
-  const set = new StringSet([]);
-  t.is(set.size, 0);
-});
-
-test('constructor: non empty data', (t) => {
-  const set = new StringSet(['abc', 'def']);
-  t.is(set.size, 2);
-  t.true(set.has('abc'));
-  t.deepEqual(Array.from(set), ['abc', 'def']);
-});
-
-test('method "has": wrong arguments', (t) => {
+  // constructor(Array)
+  assert.equal((new StringSet()).size, 0);
+  assert.equal((new StringSet([])).size, 0);
+  assert.throws(() => new StringSet(null));
+  assert.throws(() => new StringSet({ 0: 'abc', 1: 'def' }));
   const set = new StringSet(['a', 'b', 'c']);
-  t.throws(() => set.has(5));
-  t.throws(() => set.has(''));
-});
+  assert.equal(set.size, 3);
+  assert.deepEqual(Array.from(set), ['a', 'b', 'c']);
 
-test('method "has": right arguments', (t) => {
-  const set = new StringSet(['a', 'b', 'c']);
-  t.false(set.has('f'));
-  t.true(set.has('b'));
-});
+  // .has(value) => Boolean
+  assert.throws(() => set.has(5));
+  assert.throws(() => set.has(''));
+  assert.equal(set.has('f'), false);
+  assert.equal(set.has('b'), true);
 
-test('method "add": wrong arguments', (t) => {
-  const set = new StringSet(['a', 'b', 'c']);
-  t.throws(() => set.add(5));
-  t.throws(() => set.add(''));
-});
-
-test('method "add": right arguments', (t) => {
-  const set = new StringSet(['a', 'b', 'c']);
+  // .add(value)
+  assert.throws(() => set.add(5));
+  assert.throws(() => set.add(''));
   set.add('a');
+  assert.equal(set.size, 3);
   set.add('d');
-  t.is(set.size, 4);
-  t.deepEqual(Array.from(set), ['a', 'b', 'c', 'd']);
-});
+  assert.equal(set.size, 4);
+  assert.deepEqual(Array.from(set), ['a', 'b', 'c', 'd']);
 
-test('method "add": right order', (t) => {
-  const set = new StringSet(['x', 'a', 'b']);
-  set.add('a');
-  set.add('q');
-  t.deepEqual(Array.from(set), ['x', 'a', 'b', 'q']);
-});
-
-test('method "delete": wrong arguments', (t) => {
-  const set = new StringSet(['a', 'b', 'c']);
-  t.throws(() => set.delete(5));
-  t.throws(() => set.delete(''));
-});
-
-test('method "delete": right arguments', (t) => {
-  const set = new StringSet(['a', 'b', 'c']);
+  // .delete(value)
+  assert.throws(() => set.delete(5));
+  assert.throws(() => set.delete(''));
   set.delete('f');
+  assert.equal(set.size, 4);
   set.delete('a');
-  t.is(set.size, 2);
-  t.deepEqual(Array.from(set), ['b', 'c']);
-});
+  assert.equal(set.size, 3);
 
-test('method "toJSON"', (t) => {
-  const set = new StringSet(['a', 'b', 'c']);
-  const json = set.toJSON();
-  t.deepEqual(json, ['a', 'b', 'c']);
+  // .toJSON() => Array
+  assert.deepEqual(set.toJSON(), ['b', 'c', 'd']);
 });

@@ -1,0 +1,11 @@
+env:
+  es2020: true
+  node: true
+extends: airbnb-base
+parserOptions:
+  sourceType: module
+rules:
+  # airbnb forbids extensions, but native esm requires them
+  import/extensions:
+    - error
+    - ignorePackages

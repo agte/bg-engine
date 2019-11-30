@@ -1,122 +1,83 @@
 /* eslint-disable max-classes-per-file */
-import { serial as test } from 'ava';
-import Items from '../src/Items.js';
-import Item from '../src/Item.js';
+import assert from 'assert';
+import Items from '../lib/Items.js';
+import Item from '../lib/Item.js';
 
-class SuperItem extends Item {}
+export default Promise.resolve().then(async () => {
+  class SuperItem extends Item {}
+  let items;
 
-test('class', (t) => {
-  t.true(Object.prototype.isPrototypeOf.call(Map, Items));
-});
+  assert.ok(Object.prototype.isPrototypeOf.call(Map, Items));
 
-test('constructor: no data', (t) => {
-  t.notThrows(() => new Items());
-});
-
-test('constructor: wrong data', (t) => {
-  t.throws(() => new Items({}));
-  t.throws(() => new Items(null));
-  t.throws(() => new Items(5));
-  t.throws(() => new Items([{}]));
-  t.throws(() => new Items([], 5));
-  t.throws(() => new Items([], null));
+  // constructor
+  assert.doesNotThrow(() => new Items());
+  assert.throws(() => new Items({}));
+  assert.throws(() => new Items(null));
+  assert.throws(() => new Items(5));
+  assert.throws(() => new Items([{}]));
+  assert.throws(() => new Items([], 5));
+  assert.throws(() => new Items([], null));
   /* eslint-disable prefer-arrow-callback, func-names */
-  t.throws(() => new Items([], function () {}));
+  assert.throws(() => new Items([], function () {}));
   /* eslint-enable prefer-arrow-callback, func-names */
-  t.throws(() => new Items([], () => {}));
-  t.throws(() => new Items([], Map));
-});
+  assert.throws(() => new Items([], () => {}));
+  assert.throws(() => new Items([], Map));
 
-test('constructor: valid argument "items"', (t) => {
-  t.notThrows(() => new Items([]));
-  t.notThrows(() => new Items([{ id: 'abc' }]));
-  t.notThrows(() => new Items([{ id: 'abc' }, { id: 'cde' }]));
-});
+  assert.doesNotThrow(() => new Items([]));
+  assert.doesNotThrow(() => new Items([{ id: 'abc' }]));
+  assert.doesNotThrow(() => new Items([{ id: 'abc' }, { id: 'cde' }]));
+  assert.throws(() => new Items([{ id: 'abc' }, { id: 'bcd' }, { id: 'abc' }]));
 
-test('constructor: duplicated items', (t) => {
-  t.throws(() => new Items([{ id: 'abc' }, { id: 'bcd' }, { id: 'abc' }]));
-});
+  items = new Items([{ id: 'abc' }, { id: 'cde' }]);
+  assert.ok(items.get('abc') instanceof Item);
 
-test('constructor: default item class', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }]);
-  t.true(items.get('abc') instanceof Item);
-});
+  items = new Items([{ id: 'abc' }, { id: 'cde' }], Item);
+  assert.ok(items.get('abc') instanceof Item);
 
-test('constructor: not inherited item class', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }], Item);
-  t.true(items.get('abc') instanceof Item);
-});
+  items = new Items([{ id: 'abc' }, { id: 'cde' }], SuperItem);
+  assert.ok(items.get('abc') instanceof SuperItem);
 
-test('constructor: inherited item class', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }], SuperItem);
-  t.true(items.get('abc') instanceof SuperItem);
-});
-
-test('constructor: wrong item class', (t) => {
   class AlianItem {}
-  t.throws(() => new Items([{ id: 'abc' }, { id: 'cde' }], AlianItem));
-});
+  assert.throws(() => new Items([{ id: 'abc' }, { id: 'cde' }], AlianItem));
 
-test('method "toArray"', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }], SuperItem);
+  // .toArray() => Array.<Object>
+  items = new Items([{ id: 'abc' }, { id: 'cde' }], SuperItem);
   const array = items.toArray();
-  t.is(array.length, items.size);
-  t.true(array[0] instanceof SuperItem);
-});
+  assert.equal(array.length, items.size);
+  assert.ok(array[0] instanceof SuperItem);
 
-test('method "toJSON"', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }], SuperItem);
+  // .toJSON() => Array.<Object>
+  items = new Items([{ id: 'abc' }, { id: 'cde' }], SuperItem);
   const json = items.toJSON();
-  t.deepEqual(json, [{ id: 'abc' }, { id: 'cde' }]);
-});
+  assert.deepEqual(json, [{ id: 'abc' }, { id: 'cde' }]);
 
-test('metod "first": empty list', (t) => {
-  const items = new Items([]);
-  t.is(items.first(), null);
-});
+  // .first() => Item|null
+  items = new Items([]);
+  assert.equal(items.first(), null);
 
-test('metod "first": non empty list', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
-  t.is(items.first(), items.get('abc'));
-});
+  items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
+  assert.equal(items.first(), items.get('abc'));
 
-test('metod "last": empty list', (t) => {
-  const items = new Items([]);
-  t.is(items.last(), null);
-});
+  // .last()
+  items = new Items([]);
+  assert.equal(items.last(), null);
 
-test('metod "last": non empty list', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
-  t.is(items.last(), items.get('efg'));
-});
+  items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
+  assert.equal(items.last(), items.get('efg'));
 
-test('method "nextAfter": wrong arguments', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
-  t.throws(() => items.nextAfter(5));
-  t.throws(() => items.nextAfter(''));
-});
+  // .nextAfter(value) => Item|null
+  items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
+  assert.throws(() => items.nextAfter(5));
+  assert.throws(() => items.nextAfter(''));
 
-test('method "nextAfter": empty list', (t) => {
-  const items = new Items([]);
-  t.is(items.nextAfter('abc'), null);
-});
+  items = new Items([]);
+  assert.equal(items.nextAfter('abc'), null);
 
-test('method "nextAfter": list of single item', (t) => {
-  const items = new Items([{ id: 'abc' }]);
-  t.is(items.nextAfter('abc'), items.get('abc'));
-});
+  items = new Items([{ id: 'abc' }]);
+  assert.equal(items.nextAfter('abc'), items.get('abc'));
 
-test('method "nextAfter": normal case', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
-  t.is(items.nextAfter('abc'), items.get('cde'));
-});
-
-test('method "nextAfter": end of list', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
-  t.is(items.nextAfter('efg'), items.get('abc'));
-});
-
-test('method "nextAfter": unknown id', (t) => {
-  const items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
-  t.is(items.nextAfter('xyz'), null);
+  items = new Items([{ id: 'abc' }, { id: 'cde' }, { id: 'efg' }]);
+  assert.equal(items.nextAfter('abc'), items.get('cde'));
+  assert.equal(items.nextAfter('efg'), items.get('abc'));
+  assert.equal(items.nextAfter('xyz'), null);
 });

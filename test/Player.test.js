@@ -1,68 +1,43 @@
-import { serial as test } from 'ava';
-import Player from '../src/Player.js';
-import Item from '../src/Item.js';
-import StringSet from '../src/StringSet.js';
+import assert from 'assert';
+import Player from '../lib/Player.js';
+import Item from '../lib/Item.js';
+import StringSet from '../lib/StringSet.js';
 
-test('class', (t) => {
-  t.true(Object.prototype.isPrototypeOf.call(Item, Player));
-});
-
-test('constructor: without data', (t) => {
-  t.throws(() => new Player());
-});
-
-test('property "actions": default value', (t) => {
-  const player = new Player({ id: 'abc' });
-  t.is(typeof player.actions, 'object');
-  t.true(player.actions instanceof StringSet);
-  t.is(player.actions.size, 0);
-});
-
-test('property "actions": initial value', (t) => {
+export default Promise.resolve().then(async () => {
   let player;
-  t.notThrows(() => { player = new Player({ id: 'abc', actions: ['go', 'stay'] }); });
-  t.is(typeof player.actions, 'object');
-  t.true(player.actions instanceof StringSet);
-  t.deepEqual(Array.from(player.actions), ['go', 'stay']);
-});
 
-test('property "actions": readonly', (t) => {
-  const player = new Player({ id: 'abc', actions: ['go', 'stay'] });
-  t.throws(() => { player.actions = null; });
-});
+  assert.ok(Object.prototype.isPrototypeOf.call(Item, Player));
 
-test('property "score": default value', (t) => {
-  const player = new Player({ id: 'abc' });
-  t.is(player.score, 0);
-});
+  // constructor
+  assert.throws(() => new Player());
+  player = new Player({ id: 'abc' });
+  assert.equal(typeof player.actions, 'object');
+  assert.ok(player.actions instanceof StringSet);
+  assert.equal(player.actions.size, 0);
 
-test('property "score": initial value', (t) => {
-  t.throws(() => new Player({ id: 'abc', score: '5' }));
-  t.throws(() => new Player({ id: 'abc', score: NaN }));
-  let player;
-  t.notThrows(() => { player = new Player({ id: 'abc', score: 0.5 }); });
-  t.is(player.score, 0.5);
-});
+  player = new Player({ id: 'abc', actions: ['go', 'stay'] });
+  assert.equal(typeof player.actions, 'object');
+  assert.ok(player.actions instanceof StringSet);
+  assert.deepEqual(Array.from(player.actions), ['go', 'stay']);
+  assert.throws(() => { player.actions = null; });
+  assert.equal(player.score, 0);
 
-test('method "toJSON"', (t) => {
-  const player = new Player({ id: 'abc' });
+  assert.throws(() => new Player({ id: 'abc', score: '5' }));
+  assert.throws(() => new Player({ id: 'abc', score: NaN }));
+  player = new Player({ id: 'abc', score: 0.5 });
+  assert.equal(player.score, 0.5);
+
+  // .toJSON() => Object
+  player = new Player({ id: 'abc' });
   player.actions.add('go');
   player.score = 5;
-  const json = player.toJSON();
-  t.deepEqual(json, {
+  assert.deepEqual(player.toJSON(), {
     id: 'abc',
     actions: ['go'],
     score: 5,
   });
-});
-
-test('constructor: from json', (t) => {
-  const player = new Player({ id: 'abc' });
-  player.actions.add('go');
-  player.score = 5;
-  const json = player.toJSON();
-  const restoredPlayer = new Player(json);
-  t.is(restoredPlayer.id, 'abc');
-  t.true(restoredPlayer.actions.has('go'));
-  t.is(restoredPlayer.score, 5);
+  player = new Player(player.toJSON());
+  assert.equal(player.id, 'abc');
+  assert.ok(player.actions.has('go'));
+  assert.equal(player.score, 5);
 });

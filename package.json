@@ -1,17 +1,24 @@
 {
   "name": "@agte/bg-engine",
-  "version": "0.0.9",
+  "version": "2.0.0",
   "description": "Basic engine for boardgames",
   "type": "module",
-  "main": "index.js",
+  "exports": {
+    ".": "./lib/Game.js",
+    "./Item": "./lib/Item.js",
+    "./Items": "./lib/Items.js",
+    "./Player": "./lib/Player.js"
+  },
   "directories": {
-    "lib": "src",
+    "lib": "lib",
     "test": "test"
   },
+  "files": [
+    "lib/*"
+  ],
   "scripts": {
-    "lint": "eslint .",
-    "format": "eslint --fix .",
-    "test": "ava"
+    "test": "node test/index.js",
+    "coverage": "c8 npm test"
   },
   "repository": {
     "type": "git",
@@ -30,58 +37,13 @@
     "url": "https://github.com/agte/bg-engine/issues"
   },
   "homepage": "https://github.com/agte/bg-engine#readme",
+  "engines": {
+    "node": ">=13.2.0"
+  },
   "dependencies": {
-    "@agte/type": "git+https://github.com/agte/type.git#1.0.0"
+    "@agte/type": "git+https://github.com/agte/type.git#2.0.0"
   },
   "devDependencies": {
-    "ava": "^2.4.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.5.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "esm": "^3.2.25"
-  },
-  "engines": {
-    "node": ">=12.4.0"
-  },
-  "eslintConfig": {
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "extends": "airbnb-base",
-    "globals": {
-      "Atomics": "readonly",
-      "SharedArrayBuffer": "readonly"
-    },
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 2019,
-      "sourceType": "module"
-    },
-    "rules": {
-      "import/extensions": [
-        "error",
-        "ignorePackages"
-      ],
-      "no-useless-rename": 0
-    }
-  },
-  "ava": {
-    "require": [
-      "esm"
-    ],
-    "testOptions": {
-      "presets": [
-        [
-          "module:ava/stage-4",
-          {
-            "modules": false
-          }
-        ]
-      ]
-    },
-    "babel": false,
-    "compileEnhancements": false
+    "c8": "^6.0.1"
   }
 }
