@@ -1,6 +1,6 @@
 {
   "name": "@agte/bg-engine",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Basic engine for boardgames",
   "type": "module",
   "exports": {
