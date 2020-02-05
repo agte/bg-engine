@@ -18,7 +18,8 @@
   ],
   "scripts": {
     "test": "node test/index.js",
-    "coverage": "c8 npm test"
+    "coverage": "c8 npm test",
+    "lint": "eslint lib"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,40 @@
     "@agte/type": "git+https://github.com/agte/type.git#2.0.0"
   },
   "devDependencies": {
-    "c8": "^6.0.1"
+    "babel-eslint": "^10.0.3",
+    "c8": "^6.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsdoc": "^21.0.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "es2020": true,
+      "node": true
+    },
+    "extends": ["airbnb-base", "plugin:jsdoc/recommended"],
+    "globals": {
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 2019,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "jsdoc"
+    ],
+    "rules": {
+      "import/extensions": [
+        "error",
+        "ignorePackages"
+      ],
+      "import/no-unresolved": 0,
+      "jsdoc/require-param-description": 0,
+      "jsdoc/require-property-description": 0,
+      "jsdoc/require-returns-description": 0
+    }
   }
 }
