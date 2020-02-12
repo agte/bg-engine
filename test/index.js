@@ -1,10 +1,5 @@
 const testModules = [
-  './StringSet.test.js',
   './State.test.js',
-  './Item.test.js',
-  './Items.test.js',
-  './Player.test.js',
-  './Game.test.js',
 ];
 
 /* eslint-disable no-console */
